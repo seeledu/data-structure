@@ -5,7 +5,7 @@ struct node
 {
     node *lson,*rson;//l son,r son
     int fix,data;//random fix val, if a node
-}*root; //build tree
+}; //build tree
 int n,mod;//the number of nodes,which mod the user choose
 int tmp;//临时变量
 using namespace std;
@@ -17,6 +17,7 @@ void insert(node *&ind,int va);//插入新的结点
 void travel(node *ind);//实现二叉树的遍历功能
 void turnleft(node *&ind)//左旋
 {
+   // cout<<2;
     node *b=ind->rson;
     ind->rson=b->lson;
     b->lson=ind;
@@ -24,6 +25,7 @@ void turnleft(node *&ind)//左旋
 }
 void turnright(node *&ind)//右旋
 {
+   // cout<<3;
     node *b=ind->lson;
     ind->lson=b->rson;
     b->rson=ind;
@@ -67,9 +69,10 @@ void insert(node *&ind,int va)//插入新的结点
         ind=new node;
         ind->data=va;
         ind->fix=rand();
-        return ;
-    }else
-    if (va<=ind->data)
+        //delete ind->lson;
+       // delete ind->rson;
+       // return ;
+    }else if (va<=ind->data)
     {
         insert(ind->lson,va);
         if (ind->lson->fix<ind->fix)
@@ -77,10 +80,13 @@ void insert(node *&ind,int va)//插入新的结点
     }
     else
     {
+        //cout<<ind->data;
+        //cout<<2;
         insert(ind->rson,va);
         if(ind->rson->fix<ind->fix)
             turnleft(ind);
     }
+
 }
 int find(node *ind,int va)//寻找结点
 {
@@ -99,15 +105,20 @@ void travel(node *ind)//实现二叉树的遍历功能
     printf("%d ",ind->data);
     travel(ind->rson);
 }
+node *lroot,*root;
 int main()
 {
     cout<<"请驶入初始节点数：";
     scanf("%d",&n);
     cout<<"请输入初始节点信息：";
+
     for (int i=1; i<=n; i++)
     {
+       // root=lroot;
         scanf("%d",&tmp);
         insert(root,tmp);
+        if (!lroot) lroot=root;
+        cout<<1;
     }
     cout<<"请选择你想要的功能\n";
     cout<<"1:遍历整棵树";
@@ -129,9 +140,9 @@ int main()
                 break;
             case 3:
                 scanf("%d",&tmp);
-                if (find(root,tmp)) cout<<"查找成功！";else cout<<"查找失败！"
+                if (find(root,tmp)) cout<<"查找成功！";else cout<<"查找失败！";
                 break;
-            case 4;
+            case 4:
                 scanf("%d",&tmp);
                 if (find(root,tmp))
                 {
